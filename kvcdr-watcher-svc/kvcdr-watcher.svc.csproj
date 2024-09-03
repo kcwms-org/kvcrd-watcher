@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-kvcdr_watcher-c8889054-0c6d-408c-a705-71c12e29b39d</UserSecretsId>
+    <RootNamespace>kvcdr_watcher</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\kvcdr-watcher-logic\kvcdr-watcher-logic.csproj" />
+  </ItemGroup>
+</Project>
