@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using kvcdr_watcher_logic;
-using Microsoft.Win32.SafeHandles;
 
 namespace kvcdr_watcher;
 

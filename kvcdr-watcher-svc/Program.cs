@@ -19,6 +19,7 @@ internal class Program
         {
             lb.AddFile(builder.Configuration.GetSection("Logging"));
         });
+        
 
         var host = builder.Build();
         host.Run();
