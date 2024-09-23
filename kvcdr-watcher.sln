@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kvcdr-watcher-logic", "kvcd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kvcdr-watcher.svc", "kvcdr-watcher-svc\kvcdr-watcher.svc.csproj", "{6D2BF1F2-9EAF-408B-AFAF-1C2FA034BA3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kvcdr-watcher-test", "kvcdr-watcher-test\kvcdr-watcher-test.csproj", "{57EB71D3-8510-45D7-A8BE-87C8D55DAE05}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,10 +23,6 @@ Global
 		{6D2BF1F2-9EAF-408B-AFAF-1C2FA034BA3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6D2BF1F2-9EAF-408B-AFAF-1C2FA034BA3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D2BF1F2-9EAF-408B-AFAF-1C2FA034BA3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D2BF1F2-9EAF-408B-AFAF-1C2FA034BA3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57EB71D3-8510-45D7-A8BE-87C8D55DAE05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{57EB71D3-8510-45D7-A8BE-87C8D55DAE05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57EB71D3-8510-45D7-A8BE-87C8D55DAE05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{57EB71D3-8510-45D7-A8BE-87C8D55DAE05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D2BF1F2-9EAF-408B-AFAF-1C2FA034BA3C}.Release|Any CPU.Build.0 = Release|Any CPU		
 	EndGlobalSection
 EndGlobal
