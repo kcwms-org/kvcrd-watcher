@@ -7,12 +7,16 @@ public class Worker : BackgroundService
     private readonly ILogger<Worker> _logger;
     private readonly IConfiguration _config;
     private readonly FileSystemWatcher _watcher;
+    private readonly EmailAttacher _emailAttacher1;
 
-    public Worker(ILogger<Worker> logger, IConfiguration configuration)
+    public Worker(ILogger<Worker> logger, IConfiguration configuration, EmailAttacher emailAttacher)
     {
         _logger = logger;
         _config = configuration;
         _watcher = new FileSystemWatcher();
+        _emailAttacher1 = emailAttacher;
+
+        _logger.LogInformation($"kvcdrFileWatcher has been initialized at {DateTimeOffset.Now}");
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -21,7 +25,7 @@ public class Worker : BackgroundService
         {
             if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                //_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
                 var folderToWatch = Path.Combine(_config["FolderToWatch"]);
 
@@ -31,11 +35,14 @@ public class Worker : BackgroundService
 
                     _watcher.EnableRaisingEvents = false;
                     _watcher.Created -= OnFileCreated;
+                    _watcher.Disposed -= _watcher_Disposed;
 
                     _watcher.Path = folderToWatch;
-                    _watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
+                    //_watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
                     _watcher.IncludeSubdirectories = false;
+
                     _watcher.Created += OnFileCreated;
+                    _watcher.Disposed += _watcher_Disposed;
 
                     _watcher.EnableRaisingEvents = true;
                 }
@@ -45,9 +52,15 @@ public class Worker : BackgroundService
         }
     }
 
+
+    private void _watcher_Disposed(object? sender, EventArgs e)
+    {
+        _logger.LogInformation($"kvcdrFileWatcher disposed {DateTimeOffset.Now}");
+    }
+
     private void OnFileCreated(object sender, FileSystemEventArgs e)
     {
-        _logger.LogInformation($"New file dropped: '{e.FullPath}'");
+        _logger.LogWarning($"New file dropped: '{e.FullPath}'");
 
         var sourceFolder = Path.GetDirectoryName(e.FullPath);
         var archiveFolder = Path.Combine(sourceFolder, DateTime.Now.ToString("yyyy-MM-dd"));
@@ -59,12 +72,12 @@ public class Worker : BackgroundService
         File.Move(e.FullPath, archivedFileName, true);
 
         var configuration = new Dictionary<string, string>();
-        configuration.Add("DROPPED_FILE_FULL_PATH", archivedFileName);
+        configuration.Add(EmailAttacher.KEY_DROPPED_FILE_FULL_PATH, archivedFileName);
         var id = Guid.NewGuid().ToString();
 
-        _logger.LogInformation($"Started EmailAttacher with ID='{id}' and DROPPED_FILE_FULL_PATH='{archiveFolder}'.");
-        new EmailAttacher().Start(id, configuration);
-        _logger.LogInformation($"Ended EmailAttacher with ID='{id}'");
+        _logger.LogWarning($"Started EmailAttacher with ID='{id}' and DROPPED_FILE_FULL_PATH='{archivedFileName}'.");
+        _emailAttacher1.Start(id, configuration);
+        _logger.LogWarning($"Ended EmailAttacher with ID='{id}'");
 
     }
 }

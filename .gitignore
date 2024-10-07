@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/dotnetcore,linux,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=dotnetcore,linux,windows
 
+# Visual Studio idebuild folders
+.vs/
+
 ### DotnetCore ###
 # .NET Core build folders
 bin/
