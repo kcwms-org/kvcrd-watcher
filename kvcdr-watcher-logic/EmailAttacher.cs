@@ -39,7 +39,8 @@ public class EmailAttacher : IKvcdrWorker
             var psi = new ProcessStartInfo("thunderbird.exe", $"--compose \"attachment='{dropppedFile.Value}'\"");
             //psi.WorkingDirectory = Path.GetTempPath();
             psi.UseShellExecute = true;
-
+            psi.WorkingDirectory = Path.GetDirectoryName(path: Path.GetDirectoryName(dropppedFile.Value));
+            
             using (var x = new Process())
             {
                 x.Exited += X_Exited;
@@ -58,6 +59,10 @@ public class EmailAttacher : IKvcdrWorker
                     });
 
                 x.WaitForExit();
+                if (x != null)
+                {
+                    x.Kill(true);                    
+                }
             }
             _logger.LogInformation($"Start() ended");
         }
