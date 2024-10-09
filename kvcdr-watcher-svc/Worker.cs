@@ -47,6 +47,17 @@ public class Worker : BackgroundService
                     _watcher.EnableRaisingEvents = true;
                 }
 
+                //handle any files already in the watch folder
+                var existingFiles = Directory.GetFiles(folderToWatch, "*.*", SearchOption.TopDirectoryOnly);
+                if (existingFiles.Length > 0)
+                {
+                    foreach (var file in existingFiles)
+                    {
+                        var args = new FileSystemEventArgs(WatcherChangeTypes.Created, folderToWatch, Path.GetFileName(file));
+                        this.OnFileCreated(this, args);
+                    }
+
+                }
             }
             await Task.Delay(1000, stoppingToken);
         }
